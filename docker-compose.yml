@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+      - ENCRYPTION_IV=47abbe40fc1a67f128d86be66300c9b4
+      - ENCRYPTION_KEY=defaultKey
+      - DB_CONNECTION_URL=mongodb://mongo/spherity
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata:
+    driver: local
+networks:
+  default:
+    driver: bridge
