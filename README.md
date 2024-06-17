@@ -65,6 +65,31 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
+## Project Structure
+
+### Root directory
+```bash
+contexts # To keep different contexts like note
+shared # To keep different parts which could be used in all parts of the application
+```
+
+### Root shared directory
+```bash
+domain # To keep shared domain parts like exceptions
+infrastructure # To keep shared infrastructure parts like database, interceptors, pipes, etc 
+```
+
+### contexts directory
+```bash
+contexts # To keep different contexts like note
+shared # To keep different parts which are shared in the contexts
+```
+
+Each context has its own application, infrastructure, and domain directory to keep different parts of that specific context like mappers, controllers, usecases, etc.
+
+
+
+
 ## License
 
 Nest is [MIT licensed](LICENSE).
