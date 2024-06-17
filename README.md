@@ -5,7 +5,7 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+  <p align="center">A software project designed to implement a Secret Note API</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A software project designed to implement a Secret Note API, featuring a common CRUD pattern that allows users to securely create, read, update, and delete encrypted notes. This API is built using NestJS and supports encrypted data storage, ensuring that each note remains confidential and is only accessible in its decrypted form through secure API endpoints.
 
 ## Installation
 
@@ -45,6 +45,13 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+You also can run the application by running the Docker container. To do this you just need to run the command below:
+
+```bash
+# --build flag just for the first time!
+$ docker-compose up --build
+```
+
 ## Test
 
 ```bash
@@ -57,16 +64,6 @@ $ pnpm run test:e2e
 # test coverage
 $ pnpm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
