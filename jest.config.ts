@@ -34,4 +34,5 @@ module.exports = {
     '!<rootDir>/src/**/infrastructure/**.ts',
   ],
   setupFiles: ['<rootDir>/jest.setup.js'],
+  testMatch: ['**/*.spec.ts'],
 };
