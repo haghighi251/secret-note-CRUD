@@ -1,33 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="11" failures="0" errors="0" time="6.812">
-  <testsuite name="AppController" errors="0" failures="0" skipped="0" timestamp="2024-06-19T13:56:27" time="5.177" tests="1">
-    <testcase classname="AppController root should warn the user to not call this URL again" name="AppController root should warn the user to not call this URL again" time="0.026">
+<testsuites name="jest tests" tests="3" failures="0" errors="0" time="10.678">
+  <testsuite name="AppController (e2e)" errors="0" failures="0" skipped="0" timestamp="2024-06-19T18:17:02" time="9.427" tests="1">
+    <testcase classname="AppController (e2e) / (GET)" name="AppController (e2e) / (GET)" time="0.826">
     </testcase>
   </testsuite>
-  <testsuite name="SecretNoteController" errors="0" failures="0" skipped="0" timestamp="2024-06-19T13:56:27" time="5.98" tests="3">
-    <testcase classname="SecretNoteController should be defined" name="SecretNoteController should be defined" time="0.021">
+  <testsuite name="SecretNoteController (e2e)" errors="0" failures="0" skipped="0" timestamp="2024-06-19T18:17:02" time="9.481" tests="2">
+    <testcase classname="SecretNoteController (e2e) /secret-notes (POST) should create a new note" name="SecretNoteController (e2e) /secret-notes (POST) should create a new note" time="0.808">
     </testcase>
-    <testcase classname="SecretNoteController POST method to add a new note should create a secret note and return the newly created note" name="SecretNoteController POST method to add a new note should create a secret note and return the newly created note" time="0.006">
-    </testcase>
-    <testcase classname="SecretNoteController POST method to add a new note should handle use case execution failure" name="SecretNoteController POST method to add a new note should handle use case execution failure" time="0.023">
-    </testcase>
-  </testsuite>
-  <testsuite name="CreateSecretNoteUseCase" errors="0" failures="0" skipped="0" timestamp="2024-06-19T13:56:27" time="6.002" tests="3">
-    <testcase classname="CreateSecretNoteUseCase should be defined" name="CreateSecretNoteUseCase should be defined" time="0.022">
-    </testcase>
-    <testcase classname="CreateSecretNoteUseCase should create a secret note and return the document" name="CreateSecretNoteUseCase should create a secret note and return the document" time="0.004">
-    </testcase>
-    <testcase classname="CreateSecretNoteUseCase should handle errors thrown by the SecretNoteService" name="CreateSecretNoteUseCase should handle errors thrown by the SecretNoteService" time="0.023">
-    </testcase>
-  </testsuite>
-  <testsuite name="SecretNoteService" errors="0" failures="0" skipped="0" timestamp="2024-06-19T13:56:27" time="6.152" tests="4">
-    <testcase classname="SecretNoteService should be defined" name="SecretNoteService should be defined" time="0.025">
-    </testcase>
-    <testcase classname="SecretNoteService create method for adding a new note should create a secret note and return the saved document" name="SecretNoteService create method for adding a new note should create a secret note and return the saved document" time="0.016">
-    </testcase>
-    <testcase classname="SecretNoteService create method for adding a new note should throw an error if encryption fails" name="SecretNoteService create method for adding a new note should throw an error if encryption fails" time="0.014">
-    </testcase>
-    <testcase classname="SecretNoteService create method for adding a new note should throw an error if saving the document fails" name="SecretNoteService create method for adding a new note should throw an error if saving the document fails" time="0.004">
+    <testcase classname="SecretNoteController (e2e) /secret-notes (POST) should return 400 for bad input" name="SecretNoteController (e2e) /secret-notes (POST) should return 400 for bad input" time="0.068">
     </testcase>
   </testsuite>
 </testsuites>
