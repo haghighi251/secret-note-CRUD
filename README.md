@@ -297,6 +297,39 @@ Here is an example of the expected response:
 }
 ```
 
+### PUT request to update one single note
+
+- Send a request to `/secret-notes/{id}` like `http://localhost:3000/secret-notes/123466`
+
+Here is an example of the expected request and response: 
+- RQ :
+```bash
+  {
+    "note": "This is an updated secret note.",
+    "title": "My Secret Note title",
+    "version": 2
+  }
+```
+
+- RS :
+
+```bash
+  {
+    "success": true,
+    "message": "Updated has been done successfully.",
+    "note": {
+        "note": "This is an updated secret note.",
+        "id": "123466",
+        "title": "My Secret Note title",
+        "tags": [],
+        "userId": "user123",
+        "isEncrypted": true,
+        "version": 2,
+        "createdAt": "2024-06-17T22:29:15.005Z",
+        "updatedAt": "2024-06-19T17:08:24.156Z"
+  }
+```
+
 
 
 

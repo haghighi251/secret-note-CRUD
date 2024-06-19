@@ -9,6 +9,7 @@ import {
   Get,
   Param,
   Query,
+  Put,
 } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -23,6 +24,12 @@ import { NoteDomainException } from '@/contexts/shared/domain/note/note.exceptio
 import { FindAllSecretNotesUseCase } from '../usecases/find-all-secret-note.usecase';
 import { FindOneSecretNoteUseCase } from '../usecases/find-one-secret-note.usecase';
 import { FindOneEncryptedSecretNoteUseCase } from '../usecases/find-one-encrypted-secret-note.usecase';
+import {
+  UpdateSecretNoteDto,
+  UpdateSecretNoteSchema,
+} from '@contexts/notes/application/dtos/update-secret-note.dto';
+import { UpdateSecretNoteUseCase } from '../usecases/update-secret-note.usecase';
+import { UpdateResponse } from '@/shared/infrastructure/types/note/update-response';
 
 @Controller('secret-notes')
 export class SecretNoteController {
@@ -31,6 +38,7 @@ export class SecretNoteController {
     private readonly findAllSecretNotesUseCase: FindAllSecretNotesUseCase,
     private readonly findOneSecretNoteUseCase: FindOneSecretNoteUseCase,
     private readonly findOneEncryptedSecretNoteUseCase: FindOneEncryptedSecretNoteUseCase,
+    private readonly updateSecretNoteUseCase: UpdateSecretNoteUseCase,
   ) {}
 
   @Post()
@@ -79,6 +87,27 @@ export class SecretNoteController {
         const note = await this.findOneSecretNoteUseCase.execute(id);
         return res.status(HttpStatus.OK).json(note);
       }
+    } catch (error) {
+      throw new NoteDomainException(
+        'Something went wrong.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(UpdateSecretNoteSchema))
+    updateSecretNoteDto: UpdateSecretNoteDto,
+    @Res() res: Response,
+  ): Promise<Response<UpdateResponse>> {
+    try {
+      const result = await this.updateSecretNoteUseCase.execute({
+        id,
+        updateSecretNoteDto,
+      });
+      return res.status(HttpStatus.OK).json(result);
     } catch (error) {
       throw new NoteDomainException(
         'Something went wrong.',

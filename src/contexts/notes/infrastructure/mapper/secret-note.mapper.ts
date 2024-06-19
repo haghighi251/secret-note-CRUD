@@ -42,24 +42,4 @@ export class SecretNoteMapper {
       updatedAt: doc.updatedAt,
     };
   }
-
-  // toUpdateEntity(updateSecretNoteDto: UpdateSecretNoteDto, secretNote: SecretNote): SecretNote {
-  //   if (updateSecretNoteDto.note) {
-  //     secretNote.note = updateSecretNoteDto.note;
-  //   }
-  //   if (updateSecretNoteDto.title) {
-  //     secretNote.title = updateSecretNoteDto.title;
-  //   }
-  //   if (updateSecretNoteDto.tags) {
-  //     secretNote.tags = updateSecretNoteDto.tags;
-  //   }
-  //   if (updateSecretNoteDto.isEncrypted !== undefined) {
-  //     secretNote.isEncrypted = updateSecretNoteDto.isEncrypted;
-  //   }
-  //   if (updateSecretNoteDto.metadata) {
-  //     secretNote.metadata = updateSecretNoteDto.metadata;
-  //   }
-  //   secretNote.version += 1; // Increment version on update
-  //   return secretNote;
-  // }
 }

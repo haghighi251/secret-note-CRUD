@@ -9,6 +9,8 @@ import { SecretNoteDocument } from '@/shared/infrastructure/db/secret-note.schem
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { NoteDomainException } from '@/contexts/shared/domain/note/note.exception';
+import { UpdateSecretNoteDto } from '@contexts/notes/application/dtos/update-secret-note.dto';
+import { UpdateResponse } from '@/shared/infrastructure/types/note/update-response';
 
 @Injectable()
 export class SecretNoteService {
@@ -79,7 +81,6 @@ export class SecretNoteService {
         note: decryptedNote,
       });
     } catch (error) {
-      console.log(error);
       throw new NoteDomainException(
         'Something went wrong.',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -94,6 +95,42 @@ export class SecretNoteService {
         throw new NoteDomainException('Note not found.', HttpStatus.NOT_FOUND);
       }
       return this.secretNoteMapper.fromDocumentDetailed(doc);
+    } catch (error) {
+      throw new NoteDomainException(
+        'Something went wrong.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async update(
+    id: string,
+    updateSecretNoteDto: UpdateSecretNoteDto,
+  ): Promise<UpdateResponse> {
+    try {
+      const doc = await this.secretNoteModel.findOne({ id }).exec();
+      if (!doc) {
+        throw new NoteDomainException('Note not found.', HttpStatus.NOT_FOUND);
+      }
+      const encryptedNote = this.encryptionService.encrypt(
+        updateSecretNoteDto.note,
+      );
+      const updatedDoc = await this.secretNoteModel
+        .findOneAndUpdate(
+          { id },
+          { ...updateSecretNoteDto, note: encryptedNote },
+          { new: true },
+        )
+        .exec();
+      const mappedData = this.secretNoteMapper.fromDocumentDetailed(updatedDoc);
+      return {
+        success: true,
+        message: 'Updated has been done successfully.',
+        note: {
+          ...mappedData,
+          note: updateSecretNoteDto.note,
+        },
+      };
     } catch (error) {
       throw new NoteDomainException(
         'Something went wrong.',
