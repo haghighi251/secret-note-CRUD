@@ -42,7 +42,7 @@ export class SecretNoteService {
       return await secretNoteRepository.save();
     } catch (error) {
       throw new NoteDomainException(
-        'Something went wrong in.',
+        'Something went wrong in adding a new note.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -58,7 +58,7 @@ export class SecretNoteService {
       return result.map((doc) => this.secretNoteMapper.fromDocument(doc));
     } catch (error) {
       throw new NoteDomainException(
-        'Something went wrong in.',
+        'Something went wrong in finding the notes.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -82,12 +82,17 @@ export class SecretNoteService {
       });
     } catch (error) {
       throw new NoteDomainException(
-        'Something went wrong.',
+        'Something went wrong in finding a single decrypted note.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
+  /**
+   * To get a single encrypted note
+   * @param id
+   * @returns Promise<Partial<SecretNoteDocument>>
+   */
   async findOneEncrypted(id: string): Promise<Partial<SecretNoteDocument>> {
     try {
       const doc = await this.secretNoteModel.findOne({ id }).lean().exec();
@@ -97,12 +102,18 @@ export class SecretNoteService {
       return this.secretNoteMapper.fromDocumentDetailed(doc);
     } catch (error) {
       throw new NoteDomainException(
-        'Something went wrong.',
+        'Something went wrong in finding a single encrypted note.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
+  /**
+   * Update a single note
+   * @param id
+   * @param updateSecretNoteDto
+   * @returns Promise<UpdateResponse>
+   */
   async update(
     id: string,
     updateSecretNoteDto: UpdateSecretNoteDto,
@@ -133,8 +144,27 @@ export class SecretNoteService {
       };
     } catch (error) {
       throw new NoteDomainException(
-        'Something went wrong.',
+        'Something went wrong in updating a note.',
         HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  /**
+   * To remove a note
+   * @param id
+   * return Promise<void>
+   */
+  async delete(id: string): Promise<void> {
+    try {
+      const result = await this.secretNoteModel.findOneAndDelete({ id }).exec();
+      if (!result) {
+        throw new NoteDomainException('Note not found.', HttpStatus.NOT_FOUND);
+      }
+    } catch (error) {
+      throw new NoteDomainException(
+        'Something went wrong in removing a note.',
+        HttpStatus.NOT_FOUND,
       );
     }
   }

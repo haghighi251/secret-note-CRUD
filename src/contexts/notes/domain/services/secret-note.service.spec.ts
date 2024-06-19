@@ -113,11 +113,11 @@ describe('SecretNoteService', () => {
       };
 
       jest.spyOn(cryptoService, 'encrypt').mockImplementation(() => {
-        throw new Error('Encryption failed');
+        throw new Error('Something went wrong in adding a new note.');
       });
 
       await expect(service.create(createSecretNoteDto)).rejects.toThrow(
-        'Encryption failed',
+        'Something went wrong in adding a new note.',
       );
     });
 
@@ -137,11 +137,15 @@ describe('SecretNoteService', () => {
         version: 1,
       });
       secretNoteModel.mockImplementation(() => ({
-        save: jest.fn().mockRejectedValue(new Error('Save failed')),
+        save: jest
+          .fn()
+          .mockRejectedValue(
+            new Error('Something went wrong in adding a new note.'),
+          ),
       }));
 
       await expect(service.create(createSecretNoteDto)).rejects.toThrow(
-        'Save failed',
+        'Something went wrong in adding a new note.',
       );
     });
   });

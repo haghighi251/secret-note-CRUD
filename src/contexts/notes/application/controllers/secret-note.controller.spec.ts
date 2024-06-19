@@ -8,6 +8,11 @@ import { SecretNoteController } from './secret-note.controller';
 import { SecretNoteService } from '@contexts/notes/domain/services/secret-note.service';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { NoteDomainException } from '@/contexts/shared/domain/note/note.exception';
+import { FindAllSecretNotesUseCase } from '@contexts/notes/application/usecases/find-all-secret-note.usecase';
+import { FindOneSecretNoteUseCase } from '@contexts/notes/application/usecases/find-one-secret-note.usecase';
+import { FindOneEncryptedSecretNoteUseCase } from '@contexts/notes/application/usecases/find-one-encrypted-secret-note.usecase';
+import { UpdateSecretNoteUseCase } from '@contexts/notes/application/usecases/update-secret-note.usecase';
+import { DeleteSecretNoteUseCase } from '@contexts/notes/application/usecases/delete-secret-note.usecase';
 
 describe('SecretNoteController', () => {
   let controller: SecretNoteController;
@@ -40,6 +45,26 @@ describe('SecretNoteController', () => {
       providers: [
         {
           provide: CreateSecretNoteUseCase,
+          useValue: { execute: jest.fn() },
+        },
+        {
+          provide: FindAllSecretNotesUseCase,
+          useValue: { execute: jest.fn() },
+        },
+        {
+          provide: FindOneSecretNoteUseCase,
+          useValue: { execute: jest.fn() },
+        },
+        {
+          provide: FindOneEncryptedSecretNoteUseCase,
+          useValue: { execute: jest.fn() },
+        },
+        {
+          provide: UpdateSecretNoteUseCase,
+          useValue: { execute: jest.fn() },
+        },
+        {
+          provide: DeleteSecretNoteUseCase,
           useValue: { execute: jest.fn() },
         },
         {

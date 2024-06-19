@@ -13,6 +13,7 @@ import { FindAllSecretNotesUseCase } from '@contexts/notes/application/usecases/
 import { FindOneSecretNoteUseCase } from '@contexts/notes/application/usecases/find-one-secret-note.usecase';
 import { FindOneEncryptedSecretNoteUseCase } from '@contexts/notes/application/usecases/find-one-encrypted-secret-note.usecase';
 import { UpdateSecretNoteUseCase } from '@contexts/notes/application/usecases/update-secret-note.usecase';
+import { DeleteSecretNoteUseCase } from '@contexts/notes/application/usecases/delete-secret-note.usecase';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UpdateSecretNoteUseCase } from '@contexts/notes/application/usecases/up
     FindOneSecretNoteUseCase,
     FindOneEncryptedSecretNoteUseCase,
     UpdateSecretNoteUseCase,
+    DeleteSecretNoteUseCase,
     SecretNoteService,
     CryptoService,
     SecretNoteMapper,

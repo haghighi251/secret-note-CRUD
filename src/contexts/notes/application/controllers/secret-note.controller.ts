@@ -10,6 +10,7 @@ import {
   Param,
   Query,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -21,14 +22,15 @@ import { CreateSecretNoteUseCase } from '@contexts/notes/application/usecases/cr
 import { SecretNote } from '@contexts/notes/domain/entities/secret-note.entity';
 import { ZodValidationPipe } from '@/shared/infrastructure/nest/pipes/validation.pipe';
 import { NoteDomainException } from '@/contexts/shared/domain/note/note.exception';
-import { FindAllSecretNotesUseCase } from '../usecases/find-all-secret-note.usecase';
-import { FindOneSecretNoteUseCase } from '../usecases/find-one-secret-note.usecase';
-import { FindOneEncryptedSecretNoteUseCase } from '../usecases/find-one-encrypted-secret-note.usecase';
+import { FindAllSecretNotesUseCase } from '@contexts/notes/application/usecases/find-all-secret-note.usecase';
+import { FindOneSecretNoteUseCase } from '@contexts/notes/application/usecases/find-one-secret-note.usecase';
+import { FindOneEncryptedSecretNoteUseCase } from '@contexts/notes/application/usecases/find-one-encrypted-secret-note.usecase';
+import { UpdateSecretNoteUseCase } from '@contexts/notes/application/usecases/update-secret-note.usecase';
+import { DeleteSecretNoteUseCase } from '@contexts/notes/application/usecases/delete-secret-note.usecase';
 import {
   UpdateSecretNoteDto,
   UpdateSecretNoteSchema,
 } from '@contexts/notes/application/dtos/update-secret-note.dto';
-import { UpdateSecretNoteUseCase } from '../usecases/update-secret-note.usecase';
 import { UpdateResponse } from '@/shared/infrastructure/types/note/update-response';
 
 @Controller('secret-notes')
@@ -39,6 +41,7 @@ export class SecretNoteController {
     private readonly findOneSecretNoteUseCase: FindOneSecretNoteUseCase,
     private readonly findOneEncryptedSecretNoteUseCase: FindOneEncryptedSecretNoteUseCase,
     private readonly updateSecretNoteUseCase: UpdateSecretNoteUseCase,
+    private readonly deleteSecretNoteUseCase: DeleteSecretNoteUseCase,
   ) {}
 
   @Post()
@@ -61,6 +64,7 @@ export class SecretNoteController {
   }
 
   @Get()
+  @HttpCode(200)
   async findAll(@Res() res: Response): Promise<Response> {
     try {
       const notes = await this.findAllSecretNotesUseCase.execute();
@@ -74,6 +78,7 @@ export class SecretNoteController {
   }
 
   @Get(':id')
+  @HttpCode(200)
   async findOne(
     @Param('id') id: string,
     @Query('encrypted') encrypted: string,
@@ -96,6 +101,7 @@ export class SecretNoteController {
   }
 
   @Put(':id')
+  @HttpCode(200)
   async update(
     @Param('id') id: string,
     @Body(new ZodValidationPipe(UpdateSecretNoteSchema))
@@ -113,6 +119,22 @@ export class SecretNoteController {
         'Something went wrong.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  async delete(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<Response<{ message: string }>> {
+    try {
+      await this.deleteSecretNoteUseCase.execute(id);
+      return res
+        .status(HttpStatus.OK)
+        .json({ success: true, message: 'Note deleted successfully' });
+    } catch (error) {
+      throw new NoteDomainException('Note not found.', HttpStatus.NOT_FOUND);
     }
   }
 }
