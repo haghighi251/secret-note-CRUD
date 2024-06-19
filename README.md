@@ -26,6 +26,14 @@
 
 A software project designed to implement a Secret Note API, featuring a common CRUD pattern that allows users to securely create, read, update, and delete encrypted notes. This API is built using NestJS and supports encrypted data storage, ensuring that each note remains confidential and is only accessible in its decrypted form through secure API endpoints.
 
+## Pay attention
+
+Dear Reviewers,
+
+I have documented some of my decisions and approaches in the project. To expedite the process, I focused on adding tests for the add functionality of the API. Additionally, I have included contexts regarding Git usage, instructions on how to run the software, and potential improvements if more time were available.
+
+Please review the documentation in detail. I look forward to discussing this application with you and receiving your feedback.
+
 ## Installation
 
 ```bash
@@ -45,6 +53,8 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+If you want to run it without Docker please pay attention about the MongoDB configurations. You can see it on the .env.example file.
+
 You also can run the application by running the Docker container. To do this you just need to run the command below:
 
 ```bash
@@ -60,6 +70,9 @@ $ pnpm run test
 
 # e2e tests
 $ pnpm run test:e2e
+
+# unit tests
+$ pnpm run test:unit
 
 # test coverage
 $ pnpm run test:cov
@@ -257,7 +270,7 @@ Here is an example of the expected response:
 ]
 ```
 
-### Get request to get one single decrypted note
+### Get request to get a single decrypted note
 
 - Send a request to `/secret-notes/{id}` like `http://localhost:3000/secret-notes/123466`
 
@@ -277,7 +290,7 @@ Here is an example of the expected response:
 }
 ```
 
-### Get request to get one single encrypted note
+### Get request to get a single encrypted note
 
 - Send a request to `/secret-notes/{id}?encrypted=true` like `http://localhost:3000/secret-notes/123466?encrypted=true`
 
@@ -297,7 +310,7 @@ Here is an example of the expected response:
 }
 ```
 
-### PUT request to update one single note
+### PUT request to update a single note
 
 - Send a request to `/secret-notes/{id}` like `http://localhost:3000/secret-notes/123466`
 
@@ -330,11 +343,24 @@ Here is an example of the expected request and response:
   }
 ```
 
+### Delete request to remove a single note
 
+- Send a request to `/secret-notes/{id}` like `http://localhost:3000/secret-notes/123466`
 
+Here is an example of the expected response: 
 
+```bash
+  {
+    "success": true,
+    "message": "Note deleted successfully"
+  }
+```
 
-
+## What about if I had more time?
+- more unit tests for get, update and delete requests
+- more e2e tests for get, update and delete requests
+- A better error handler for converting domain exceptions to HTTP exceptions
+- Adding a logger to log RQ and RS in DB or somewhere else like DD
 
 
 ## License
