@@ -19,20 +19,29 @@ export class SecretNoteMapper {
     };
   }
 
-  fromDocument(doc: SecretNoteDocument): SecretNoteDocument {
-    const secretNote = new SecretNoteDocument();
-    secretNote.note = doc.note;
-    secretNote.id = doc.id;
-    secretNote.title = doc.title;
-    secretNote.tags = doc.tags;
-    secretNote.userId = doc.userId;
-    secretNote.isEncrypted = doc.isEncrypted;
-    secretNote.version = doc.version;
-    secretNote.metadata = doc.metadata;
-    secretNote.createdAt = doc.createdAt;
-    secretNote.updatedAt = doc.updatedAt;
-    return secretNote;
+  fromDocument(doc: SecretNoteDocument): Partial<SecretNoteDocument> {
+    return {
+      id: doc.id,
+      title: doc.title,
+      userId: doc.userId,
+      createdAt: doc.createdAt,
+    };
   }
+
+  // fromDocument(doc: SecretNoteDocument): Partial<SecretNoteDocument> {
+  //   return {
+  //     note: doc.note,
+  //     id: doc.id,
+  //     title: doc.title,
+  //     tags: doc.tags,
+  //     userId: doc.userId,
+  //     isEncrypted: doc.isEncrypted,
+  //     version: doc.version,
+  //     metadata: doc.metadata,
+  //     createdAt: doc.createdAt,
+  //     updatedAt: doc.updatedAt,
+  //   };
+  // }
 
   // toUpdateEntity(updateSecretNoteDto: UpdateSecretNoteDto, secretNote: SecretNote): SecretNote {
   //   if (updateSecretNoteDto.note) {

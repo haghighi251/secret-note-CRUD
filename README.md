@@ -90,7 +90,7 @@ Each context has its own application, infrastructure, and domain directory to ke
 
 ## Git structure
 
-There are two different branches. The first branch is production, the second branch is development. I made feature branch locally which will be added to the development branch with all commits(linier) and from the development branch will be merged into production branch for each separated functionality(rebase strategy). In this way we will have a more cleaner production branch so if something gets wrong in the production we are simply able to revert to the last version with one single revert command.
+There are two different branches. The first branch is production, the second branch is development. I made feature branch locally which will be added to the development branch with all commits(linier) and from the development branch will be merged into production branch for each separated functionality which contains all commits in single commit(squash). In this way we will have a more cleaner production branch so if something gets wrong in the production we are simply able to revert to the last version with one single revert command.
 
 I didn't add a demo branch because I think these two branches are enough for a simple code challenge.
 

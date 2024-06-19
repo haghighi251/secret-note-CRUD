@@ -17,7 +17,6 @@ export class CreateSecretNoteUseCase
     try {
       return await this.secretNoteService.create(createSecretNoteDto);
     } catch (error) {
-      console.log(error);
       throw new NoteDomainException(
         'Something went wrong.',
         HttpStatus.INTERNAL_SERVER_ERROR,
