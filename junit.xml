@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="2" failures="0" errors="0" time="9.574">
+  <testsuite name="SecretNoteController (e2e)" errors="0" failures="0" skipped="0" timestamp="2024-06-19T12:09:58" time="9.188" tests="2">
+    <testcase classname="SecretNoteController (e2e) /secret-notes (POST) should create a new note" name="SecretNoteController (e2e) /secret-notes (POST) should create a new note" time="0.874">
+    </testcase>
+    <testcase classname="SecretNoteController (e2e) /secret-notes (POST) should return 400 for bad input" name="SecretNoteController (e2e) /secret-notes (POST) should return 400 for bad input" time="0.065">
+    </testcase>
+  </testsuite>
+</testsuites>
