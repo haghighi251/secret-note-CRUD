@@ -200,6 +200,10 @@ E2E tests use Jest alongside NestJS Testing Utilities and often interact with th
 
 ## HTTP methods to interact with the server:
 
+### End point
+
+- http://localhost:3000/secret-notes
+
 ### POST requests
 - To add a new note.
 
@@ -228,6 +232,53 @@ As the response you have to get a 201 HTTP response status code with the body of
     "__v": 0
 }
 ```
+
+### Get request to get all notes
+
+- Just a request to the server. 
+
+Here is an example of the expected response: 
+
+```bash
+[
+    {
+        "id": "12345",
+        "title": "My Secret Note",
+        "userId": "user123",
+        "createdAt": "2024-06-19T14:20:11.775Z"
+    },
+    {
+        "id": "123466",
+        "title": "Another Note",
+        "userId": "user123",
+        "createdAt": "2024-06-19T14:21:15.005Z"
+    },
+    ...
+]
+```
+
+### Get request to get one single decrypted note
+
+- Send a request to `/secret-notes/{id}` like `http://localhost:3000/secret-notes/123466`
+
+Here is an example of the expected response: 
+
+```bash
+    {
+    "note": "This is a secret note.",
+    "id": "123466",
+    "title": "My Secret Note",
+    "tags": [],
+    "userId": "user123",
+    "isEncrypted": true,
+    "version": 1,
+    "createdAt": "2024-06-17T22:29:15.005Z",
+    "updatedAt": "2024-06-17T22:29:15.005Z"
+}
+```
+
+
+
 
 
 

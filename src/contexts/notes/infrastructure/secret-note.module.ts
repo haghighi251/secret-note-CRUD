@@ -10,6 +10,7 @@ import { SecretNoteService } from '@contexts/notes/domain/services/secret-note.s
 import { CryptoService } from '@/shared/infrastructure/security/crypto.service';
 import { SecretNoteMapper } from '@contexts/notes/infrastructure/mapper/secret-note.mapper';
 import { FindAllSecretNotesUseCase } from '../application/usecases/find-all-secret-note.usecase';
+import { FindOneSecretNoteUseCase } from '../application/usecases/find-one-secret-note.usecase';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FindAllSecretNotesUseCase } from '../application/usecases/find-all-secr
   providers: [
     CreateSecretNoteUseCase,
     FindAllSecretNotesUseCase,
+    FindOneSecretNoteUseCase,
     SecretNoteService,
     CryptoService,
     SecretNoteMapper,

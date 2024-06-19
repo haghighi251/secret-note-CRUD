@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Res,
   Get,
+  Param,
 } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -19,12 +20,14 @@ import { SecretNote } from '@contexts/notes/domain/entities/secret-note.entity';
 import { ZodValidationPipe } from '@/shared/infrastructure/nest/pipes/validation.pipe';
 import { NoteDomainException } from '@/contexts/shared/domain/note/note.exception';
 import { FindAllSecretNotesUseCase } from '../usecases/find-all-secret-note.usecase';
+import { FindOneSecretNoteUseCase } from '../usecases/find-one-secret-note.usecase';
 
 @Controller('secret-notes')
 export class SecretNoteController {
   constructor(
     private readonly createSecretNoteUseCase: CreateSecretNoteUseCase,
     private readonly findAllSecretNotesUseCase: FindAllSecretNotesUseCase,
+    private readonly findOneSecretNoteUseCase: FindOneSecretNoteUseCase,
   ) {}
 
   @Post()
@@ -39,7 +42,6 @@ export class SecretNoteController {
         await this.createSecretNoteUseCase.execute(createSecretNoteDto);
       return res.status(HttpStatus.CREATED).json(result);
     } catch (error) {
-      console.error(error);
       throw new NoteDomainException(
         'Something went wrong.',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -53,7 +55,22 @@ export class SecretNoteController {
       const notes = await this.findAllSecretNotesUseCase.execute();
       return res.status(HttpStatus.OK).json(notes);
     } catch (error) {
-      console.error(error);
+      throw new NoteDomainException(
+        'Something went wrong.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get(':id')
+  async findOne(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<Response> {
+    try {
+      const note = await this.findOneSecretNoteUseCase.execute(id);
+      return res.status(HttpStatus.OK).json(note);
+    } catch (error) {
       throw new NoteDomainException(
         'Something went wrong.',
         HttpStatus.INTERNAL_SERVER_ERROR,

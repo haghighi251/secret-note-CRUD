@@ -28,20 +28,20 @@ export class SecretNoteMapper {
     };
   }
 
-  // fromDocument(doc: SecretNoteDocument): Partial<SecretNoteDocument> {
-  //   return {
-  //     note: doc.note,
-  //     id: doc.id,
-  //     title: doc.title,
-  //     tags: doc.tags,
-  //     userId: doc.userId,
-  //     isEncrypted: doc.isEncrypted,
-  //     version: doc.version,
-  //     metadata: doc.metadata,
-  //     createdAt: doc.createdAt,
-  //     updatedAt: doc.updatedAt,
-  //   };
-  // }
+  fromDocumentDetailed(doc: SecretNoteDocument): Partial<SecretNoteDocument> {
+    return {
+      note: doc.note,
+      id: doc.id,
+      title: doc.title,
+      tags: doc.tags,
+      userId: doc.userId,
+      isEncrypted: doc.isEncrypted,
+      version: doc.version,
+      metadata: doc.metadata,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+    };
+  }
 
   // toUpdateEntity(updateSecretNoteDto: UpdateSecretNoteDto, secretNote: SecretNote): SecretNote {
   //   if (updateSecretNoteDto.note) {

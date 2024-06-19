@@ -27,16 +27,23 @@ export class SecretNoteService {
   async create(
     createSecretNoteDto: CreateSecretNoteDto,
   ): Promise<Partial<SecretNoteDocument>> {
-    const parsedDto = CreateSecretNoteSchema.parse(createSecretNoteDto);
-    const encryptedNote = this.encryptionService.encrypt(parsedDto.note);
-    const secretNote = this.secretNoteMapper.toEntity({
-      ...parsedDto,
-      note: encryptedNote,
-    });
+    try {
+      const parsedDto = CreateSecretNoteSchema.parse(createSecretNoteDto);
+      const encryptedNote = this.encryptionService.encrypt(parsedDto.note);
+      const secretNote = this.secretNoteMapper.toEntity({
+        ...parsedDto,
+        note: encryptedNote,
+      });
 
-    const secretNoteRepository = new this.secretNoteModel(secretNote);
+      const secretNoteRepository = new this.secretNoteModel(secretNote);
 
-    return await secretNoteRepository.save();
+      return await secretNoteRepository.save();
+    } catch (error) {
+      throw new NoteDomainException(
+        'Something went wrong in.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   /**
@@ -48,9 +55,28 @@ export class SecretNoteService {
       const result = await this.secretNoteModel.find().exec();
       return result.map((doc) => this.secretNoteMapper.fromDocument(doc));
     } catch (error) {
-      console.log(error);
       throw new NoteDomainException(
         'Something went wrong in.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async findOne(id: string): Promise<Partial<SecretNoteDocument>> {
+    try {
+      const doc = await this.secretNoteModel.findOne({ id }).lean().exec();
+      if (!doc) {
+        throw new NoteDomainException('Note not found.', HttpStatus.NOT_FOUND);
+      }
+      const decryptedNote = this.encryptionService.decrypt(doc.note);
+      return this.secretNoteMapper.fromDocumentDetailed({
+        ...doc,
+        note: decryptedNote,
+      });
+    } catch (error) {
+      console.log(error);
+      throw new NoteDomainException(
+        'Something went wrong.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
