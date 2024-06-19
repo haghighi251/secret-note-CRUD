@@ -11,6 +11,7 @@ import { CryptoService } from '@/shared/infrastructure/security/crypto.service';
 import { SecretNoteMapper } from '@contexts/notes/infrastructure/mapper/secret-note.mapper';
 import { FindAllSecretNotesUseCase } from '../application/usecases/find-all-secret-note.usecase';
 import { FindOneSecretNoteUseCase } from '../application/usecases/find-one-secret-note.usecase';
+import { FindOneEncryptedSecretNoteUseCase } from '../application/usecases/find-one-encrypted-secret-note.usecase';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { FindOneSecretNoteUseCase } from '../application/usecases/find-one-secre
     CreateSecretNoteUseCase,
     FindAllSecretNotesUseCase,
     FindOneSecretNoteUseCase,
+    FindOneEncryptedSecretNoteUseCase,
     SecretNoteService,
     CryptoService,
     SecretNoteMapper,

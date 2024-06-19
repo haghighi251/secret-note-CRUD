@@ -277,6 +277,28 @@ Here is an example of the expected response:
 }
 ```
 
+### Get request to get one single encrypted note
+
+- Send a request to `/secret-notes/{id}?encrypted=true` like `http://localhost:3000/secret-notes/123466?encrypted=true`
+
+Here is an example of the expected response: 
+
+```bash
+    {
+    "note": "b7b3994e035104cc71788b75e865b37507779b8f94be221bd2219a0c05248a34",
+    "id": "123466",
+    "title": "My Secret Note",
+    "tags": [],
+    "userId": "user123",
+    "isEncrypted": true,
+    "version": 1,
+    "createdAt": "2024-06-17T22:29:15.005Z",
+    "updatedAt": "2024-06-17T22:29:15.005Z"
+}
+```
+
+
+
 
 
 

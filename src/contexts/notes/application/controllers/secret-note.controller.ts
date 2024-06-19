@@ -8,6 +8,7 @@ import {
   Res,
   Get,
   Param,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -21,6 +22,7 @@ import { ZodValidationPipe } from '@/shared/infrastructure/nest/pipes/validation
 import { NoteDomainException } from '@/contexts/shared/domain/note/note.exception';
 import { FindAllSecretNotesUseCase } from '../usecases/find-all-secret-note.usecase';
 import { FindOneSecretNoteUseCase } from '../usecases/find-one-secret-note.usecase';
+import { FindOneEncryptedSecretNoteUseCase } from '../usecases/find-one-encrypted-secret-note.usecase';
 
 @Controller('secret-notes')
 export class SecretNoteController {
@@ -28,6 +30,7 @@ export class SecretNoteController {
     private readonly createSecretNoteUseCase: CreateSecretNoteUseCase,
     private readonly findAllSecretNotesUseCase: FindAllSecretNotesUseCase,
     private readonly findOneSecretNoteUseCase: FindOneSecretNoteUseCase,
+    private readonly findOneEncryptedSecretNoteUseCase: FindOneEncryptedSecretNoteUseCase,
   ) {}
 
   @Post()
@@ -65,11 +68,17 @@ export class SecretNoteController {
   @Get(':id')
   async findOne(
     @Param('id') id: string,
+    @Query('encrypted') encrypted: string,
     @Res() res: Response,
   ): Promise<Response> {
     try {
-      const note = await this.findOneSecretNoteUseCase.execute(id);
-      return res.status(HttpStatus.OK).json(note);
+      if (encrypted === 'true') {
+        const note = await this.findOneEncryptedSecretNoteUseCase.execute(id);
+        return res.status(HttpStatus.OK).json(note);
+      } else {
+        const note = await this.findOneSecretNoteUseCase.execute(id);
+        return res.status(HttpStatus.OK).json(note);
+      }
     } catch (error) {
       throw new NoteDomainException(
         'Something went wrong.',

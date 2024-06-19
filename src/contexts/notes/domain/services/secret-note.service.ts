@@ -62,6 +62,11 @@ export class SecretNoteService {
     }
   }
 
+  /**
+   * To get a single decrypted note
+   * @param id
+   * @returns Promise<Partial<SecretNoteDocument>>
+   */
   async findOne(id: string): Promise<Partial<SecretNoteDocument>> {
     try {
       const doc = await this.secretNoteModel.findOne({ id }).lean().exec();
@@ -75,6 +80,21 @@ export class SecretNoteService {
       });
     } catch (error) {
       console.log(error);
+      throw new NoteDomainException(
+        'Something went wrong.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async findOneEncrypted(id: string): Promise<Partial<SecretNoteDocument>> {
+    try {
+      const doc = await this.secretNoteModel.findOne({ id }).lean().exec();
+      if (!doc) {
+        throw new NoteDomainException('Note not found.', HttpStatus.NOT_FOUND);
+      }
+      return this.secretNoteMapper.fromDocumentDetailed(doc);
+    } catch (error) {
       throw new NoteDomainException(
         'Something went wrong.',
         HttpStatus.INTERNAL_SERVER_ERROR,
