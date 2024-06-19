@@ -88,6 +88,147 @@ shared # To keep different parts which are shared in the contexts
 Each context has its own application, infrastructure, and domain directory to keep different parts of that specific context like mappers, controllers, usecases, etc.
 
 
+## Git structure
+
+There are two different branches. The first branch is production, the second branch is development. I made feature branch locally which will be added to the development branch with all commits(linier) and from the development branch will be merged into production branch for each separated functionality(rebase strategy). In this way we will have a more cleaner production branch so if something gets wrong in the production we are simply able to revert to the last version with one single revert command.
+
+I didn't add a demo branch because I think these two branches are enough for a simple code challenge.
+
+## Documentation for Secret Note Management System
+
+### Overview
+This project implements a secure API for managing secret notes. The system ensures that notes are encrypted before being stored in a MongoDB database and decrypted when retrieved(depends to the entry request). The API follows a clean architecture, separating concerns into controllers, services, and use cases.
+
+### Components
+
+#### 1. Controller
+
+Purpose: Handles incoming HTTP requests for creating secret notes.
+
+Key Features:
+- Uses `ZodValidationPipe` for validating incoming data against the `CreateSecretNoteDto`.
+- Maps exceptions to HTTP responses, providing meaningful error information to the client.
+
+#### 2. Use Case (CreateSecretNoteUseCase)
+
+Purpose: Implements the application logic for creating a secret note.
+
+Responsibilities:
+- Coordinates with `SecretNoteService` to handle the creation of a note.
+- Manages application-level exceptions and rethrows them with contextual information.
+
+#### 3.Service (SecretNoteService)
+
+Purpose: Manages interactions with the MongoDB database and encrypts notes before saving.
+
+Key Operations:
+- Validates and parses DTOs using Zod.
+- Encrypts the note data.
+- Maps DTOs to database models using `SecretNoteMapper`.
+- Saves encrypted notes to MongoDB.
+
+## Configurations
+
+### Zod Validation
+
+Purpose: Validates incoming data structures to ensure they meet the API's expectations before processing.
+
+Implementation: 
+- Integrated through a custom `ZodValidationPipe` which is applied at the controller level to check and parse incoming `CreateSecretNoteDto` objects.
+
+### NestJS Pipes
+
+Purpose: Used for validating and transforming incoming request data before it reaches the controller handler.
+
+Setup: Applied at the route handler level using `@UsePipes()` decorator.
+
+## Testing Strategy Documentation
+
+This project adopts a robust testing strategy that includes both unit tests and end-to-end (E2E) tests, ensuring that both individual components function as expected and that the system works as a whole from an end user’s perspective.
+
+### Unit Tests
+
+- Purpose: Unit tests are designed to test individual pieces of code in isolation, primarily focusing on small functions or modules. The goal is to ensure that each part performs as expected independently of others.
+
+- Location: Unit tests are located next to their respective source files in the src directory, following the convention of naming test files with a .spec.ts suffix. This proximity helps in maintaining and navigating related source and test files.
+
+Example Structure:
+
+```bash
+src/
+├── contexts/
+    ├── secret-notes/
+        ├── domain/
+            ├── services/
+                ├── secret-note.service.ts
+                ├── secret-note.service.spec.ts
+```
+Key Technologies: 
+
+These tests leverage Jest as the testing framework, utilizing features such as mocks and spies to isolate dependencies.
+
+### End-to-End (E2E) Tests
+
+- Purpose: E2E tests verify the system’s behavior from start to finish. They are intended to simulate user behavior and interactions to ensure all integrated parts of the application work together correctly.
+
+- Location: E2E tests are maintained in the test directory at the root of the project. This separation from unit tests helps in distinguishing between testing scopes and managing dependencies specific to E2E testing.
+
+#### Example Structure:
+
+```bash
+test/
+├── contexts/
+    ├── secret-notes/
+        ├── application
+            ├── secret-note.controller.spec.ts
+```
+
+Key Technologies: 
+
+E2E tests use Jest alongside NestJS Testing Utilities and often interact with the full application, databases, and other services. They may include setup scripts for environment simulation, such as database seeding or mock external services.
+
+#### Running Tests
+
+- Unit Tests: Run with `pnpm run test:unit`, which executes all .spec.ts files across the src directory.
+
+- E2E Tests: Executed separately using npm run `pnpm run test:e2e` to avoid interference with unit tests and to handle potentially different setup requirements, such as environment configurations or database handling.
+
+### Best Practices
+- Continuous Integration: Both unit and E2E tests are integrated into the CI/CD pipeline to ensure tests are automatically run in different environments, preventing regressions.
+- Code Coverage: Strive for high code coverage in unit tests while ensuring E2E tests cover critical user journeys and edge cases.
+- Mocking and Isolation: Critical for unit testing to ensure no external changes affect the outcomes. E2E tests, however, should interact with real implementations as much as possible.
+
+## HTTP methods to interact with the server:
+
+### POST requests
+- To add a new note.
+
+Here is an example of how to interact with the server:
+```bash
+{
+  "id": "102320",
+  "title": "My Secret Note",
+  "note": "This is a secret note.",
+  "userId": "user123"
+}
+```
+As the response you have to get a 201 HTTP response status code with the body of the result like below:
+```bash
+{
+    "note": "b7b3994e035104cc71788b75e865b37507779b8f94be221bd2219a0c05248a34",
+    "id": "102320",
+    "title": "My Secret Note",
+    "tags": [],
+    "userId": "user123",
+    "isEncrypted": true,
+    "version": 1,
+    "_id": "6672e58f4164202c8c7dee1e",
+    "createdAt": "2024-06-19T14:05:03.426Z",
+    "updatedAt": "2024-06-19T14:05:03.426Z",
+    "__v": 0
+}
+```
+
 
 
 ## License
